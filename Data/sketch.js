@@ -1,7 +1,38 @@
-function setup() {
+var stats;
+var homeRuns = [];
 
+function preload(){
+    stats = loadTable("ortiz.csv");
+}
+function setup() {
+    createCanvas(480, 120);
+    var rowCount = stats.getRowCount();
+
+    homeRuns = [];
+
+    for (var i = 0; i < stats.getRowCount(); i++) {
+        homeRuns[i] = stats.getNum(i, 1);
+    }
 }
 
 function draw() {
- 
+    background(204);
+    stroke(153);
+    line(20, 100, 20, 20);
+    line(20, 100, 460, 100);
+
+    for (var j = 0; j < homeRuns.length; j++) {
+        var x = map(j, 0, homeRuns.length - 1, 20, 460);
+        line(x, 20, x, 100);
+    }
+
+    noFill();
+    stroke(0);
+    beginShape();
+    for (var i = 0; i < homeRuns.length; i++) {
+        var x = map(i, 0, homeRuns.length - 1, 20, 460);
+        var y = map(homeRuns[i], 0, max(homeRuns), 100, 20);
+        vertex(x, y);
+    }
+    endShape();
 }
